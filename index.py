@@ -69,18 +69,18 @@ if uploaded_file:
         result = completion.choices[0].message.content
 
     try:
-    # Attempt to parse if returned as string
-    parsed = json.loads(result)
-except json.JSONDecodeError:
-    try:
-        # If already a dict, use eval fallback (safe for controlled AI outputs)
-        parsed = eval(result)
-    except:
-        parsed = None
-
-if parsed:
-    st.success("Recommendation generated!")
-    st.json(parsed)
-else:
-    st.error("The AI did not return valid JSON. Displaying raw output:")
-    st.write(result)
+        # Attempt to parse if returned as string
+        parsed = json.loads(result)
+    except json.JSONDecodeError:
+        try:
+            # If already a dict, use eval fallback (safe for controlled AI outputs)
+            parsed = eval(result)
+        except:
+            parsed = None
+    
+    if parsed:
+        st.success("Recommendation generated!")
+        st.json(parsed)
+    else:
+        st.error("The AI did not return valid JSON. Displaying raw output:")
+        st.write(result)
