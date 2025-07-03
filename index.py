@@ -10,7 +10,7 @@ load_dotenv()
 print("IMGBB Key:", os.getenv("IMGBB_API_KEY"))
 
 # Initialize OpenAI client
-client = OpenAI(api_key="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")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 st.title("💄 AI Foundation Recommender")
 st.write("Upload your selfie, and let AI analyze your skin tone, undertone, and skin type to recommend the best foundation product for you.")
