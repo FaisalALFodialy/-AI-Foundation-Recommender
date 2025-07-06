@@ -4,6 +4,7 @@ import requests
 from dotenv import load_dotenv
 import os
 import json
+import ast
 
 
 load_dotenv()
@@ -46,7 +47,12 @@ if uploaded_file:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a professional AI beauty assistant specializing in analyzing selfies and recommending the best foundation product using the skin level dataset provided internally. Always respond in JSON with fields: skin_tone_detected, undertone_detected, skin_type_detected, recommended_product, why_this_product_is_recommended."
+                    "content": (
+                                    "You are a professional AI beauty assistant specializing in analyzing selfies to recommend foundation. "
+                                    "Always respond ONLY with strict JSON in the format: "
+                                    "{\"skin_tone_detected\": \"\", \"undertone_detected\": \"\", \"skin_type_detected\": \"\", "
+                                    "\"recommended_product\": \"\", \"why_this_product_is_recommended\": \"\"} without any explanation."
+                    )                
                 },
                 {
                     "role": "user",
@@ -69,18 +75,20 @@ if uploaded_file:
         result = completion.choices[0].message.content
 
     try:
-        # Attempt to parse if returned as string
-        parsed = json.loads(result)
-    except json.JSONDecodeError:
-        try:
-            # If already a dict, use eval fallback (safe for controlled AI outputs)
-            parsed = eval(result)
-        except:
-            parsed = None
-    
-    if parsed:
+        # Strip leading/trailing whitespace
+        cleaned_result = result.strip()
+
+        # Attempt standard JSON parsing
+        parsed = json.loads(cleaned_result)
         st.success("Recommendation generated!")
         st.json(parsed)
-    else:
-        st.error("The AI did not return valid JSON. Displaying raw output:")
-        st.write(result)
+
+    except json.JSONDecodeError:
+        try:
+            # Fallback: use ast.literal_eval for valid Python dict strings
+            parsed = ast.literal_eval(cleaned_result)
+            st.success("Recommendation generated!")
+            st.json(parsed)
+        except Exception:
+            st.error("The AI did not return JSON. Displaying raw output:")
+            st.code(result, language='json')
