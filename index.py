@@ -5,7 +5,7 @@ import os
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-st.title("💄 AI Foundation Recommender (Secure Saudi Privacy)")
+st.title("💄 AI Foundation Recommender")
 
 uploaded_file = st.file_uploader("Upload your clear selfie (jpg/png). Image stays private.", type=["jpg", "jpeg", "png"])
 
