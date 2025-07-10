@@ -42,41 +42,41 @@ if uploaded_file:
     image_url = upload_to_imgbb(uploaded_file)
 
     with st.spinner("Analyzing your skin and finding the best foundation and concealer for you..."):
-    completion = client.chat.completions.create(
-        model="gpt-4-turbo",
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are a professional AI beauty assistant specializing in analyzing selfies to recommend foundation and concealer. "
-                    "You will detect the user's skin tone, undertone, and skin type. "
-                    "You will then recommend the best foundation and concealer based on these detected values, following these rules: "
-                    "- Concealer should be 1-2 shades lighter than the foundation shade. "
-                    "- Concealer should match the same undertone as the foundation. "
-                    "- Concealer formula should match the user's skin type (hydrating for dry, matte for oily/combination). "
-                    "Always respond ONLY with strict JSON in the format: "
-                    "{\"skin_tone_detected\": \"\", \"undertone_detected\": \"\", \"skin_type_detected\": \"\", "
-                    "\"recommended_foundation\": \"\", \"why_foundation_is_recommended\": \"\", "
-                    "\"recommended_concealer\": \"\", \"why_concealer_is_recommended\": \"\"} without any explanation."
-                )
-            },
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": "Please analyze this selfie and recommend the best foundation and concealer based on my skin tone, undertone, and skin type."
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": image_url
+        completion = client.chat.completions.create(
+            model="gpt-4-turbo",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a professional AI beauty assistant specializing in analyzing selfies to recommend foundation and concealer. "
+                        "You will detect the user's skin tone, undertone, and skin type. "
+                        "You will then recommend the best foundation and concealer based on these detected values, following these rules: "
+                        "- Concealer should be 1-2 shades lighter than the foundation shade. "
+                        "- Concealer should match the same undertone as the foundation. "
+                        "- Concealer formula should match the user's skin type (hydrating for dry, matte for oily/combination). "
+                        "Always respond ONLY with strict JSON in the format: "
+                        "{\"skin_tone_detected\": \"\", \"undertone_detected\": \"\", \"skin_type_detected\": \"\", "
+                        "\"recommended_foundation\": \"\", \"why_foundation_is_recommended\": \"\", "
+                        "\"recommended_concealer\": \"\", \"why_concealer_is_recommended\": \"\"} without any explanation."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "Please analyze this selfie and recommend the best foundation and concealer based on my skin tone, undertone, and skin type."
+                        },
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": image_url
+                            }
                         }
-                    }
-                ]
-            }
-        ]
-    )
+                    ]
+                }
+            ]
+        )
 
     result = completion.choices[0].message.content
 
