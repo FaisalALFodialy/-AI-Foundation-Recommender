@@ -13,7 +13,7 @@ print("IMGBB Key:", os.getenv("IMGBB_API_KEY"))
 # Initialize OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-st.title("💄 AI Foundation Recommender")
+st.title("💄 AI Foundation & Concealer Recommender")
 st.write("Upload your selfie, and let AI analyze your skin tone, undertone, and skin type to recommend the best foundation product for you.")
 
 uploaded_file = st.file_uploader("Upload a clear selfie (jpg/png)", type=["jpg", "jpeg", "png"])
