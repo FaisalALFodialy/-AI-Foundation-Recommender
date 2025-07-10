@@ -77,10 +77,7 @@ if uploaded_file:
                 }
             ]
         )
-
-    result = completion.choices[0].message.content
-
-
+        
         result = completion.choices[0].message.content
 
     try:
