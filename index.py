@@ -16,7 +16,7 @@ if uploaded_file:
 
     with st.spinner("Analyzing your skin securely..."):
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4o",
             messages=[
                 {
                     "role": "system",
